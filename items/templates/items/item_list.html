@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="Items">
+    {% for item in items %}
+        <div class="Item">
+            <h1>{{ item.name }}</h1>
+            <p>{{ item.description }}</p>
+        </div>
+    {% endfor %}
+    </div>
+
+    {% include "items/item_form.html"  %}
+
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDO</title>
+    <link href="https://fonts.googleapis.com/css?family=Sunflower:300" rel="stylesheet"> 
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+</head>
+<body>
+    <div class="container">
+        
+    <nav class="Navbar">
+        <ul class="Navbar-list">
+            <li class="Navbar-item">
+                <a class="Navbar-link" href="/">Inicio</a>
+            </li>
+            <li class="Navbar-item">
+                <a class="Navbar-link" id="add">Agregar</a>
+            </li>
+        </ul>
+    </nav>
+
+    {% block content %}
+        
+    {% endblock content %}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>        
+        $(document).ready(function(){
+            $('#add').click(function(e){
+                e.preventDefault();
+
+                $(".overlay").removeClass('inactive');
+
+            })
+            
+            $('#cancel').click(function(){
+                console.log('hola')
+                $('.overlay').addClass('inactive')
+                
+            })
+           
+        })
+
+    </script>
+    </div>
+</body>
+</html>
