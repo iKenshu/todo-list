@@ -22,9 +22,7 @@ body {
     justify-content: center;
     align-items: center;
 }
-.inactive {
-    display: none
-}
+
 .modal {
     width: 500px;
     background-color: #fafafa;

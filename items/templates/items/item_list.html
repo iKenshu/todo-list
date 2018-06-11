@@ -1,15 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="Items">
+    
+<div class="Items">
+    <form class='Item-form' action="{% url "items:add" %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Send">
+    </form>
     {% for item in items %}
         <div class="Item">
-            <h1>{{ item.name }}</h1>
-            <p>{{ item.description }}</p>
+            <h1 class="Item-name">{{ item.name }}</h1>
+            <p class="Item-description">{{ item.description }}</p>
         </div>
     {% endfor %}
-    </div>
 
-    {% include "items/item_form.html"  %}
-
+</div>
 {% endblock content %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $('.Item-form').submit(function (event){
+            event.preventDefault()
+            let $formData = $(this).serialize()
+            console.log($formData)
+            $.ajax({
+                method: "POST",
+                url: $(this).action,
+                data: $(this).serialize(),
+                success: function(data){
+                    console.log(data)
+                    let div = $('.Item')
+                    div.append($('<h1>')).html(data.name)
+                    // $('.Item-name').text(data.name)
+                    // $('.Item-description').html(data.description)
+                }
+            });
+        });
+
+    });
+</script>
+{% endblock script %}

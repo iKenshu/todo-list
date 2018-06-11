@@ -16,7 +16,7 @@
                 <a class="Navbar-link" href="/">Inicio</a>
             </li>
             <li class="Navbar-item">
-                <a class="Navbar-link" id="add">Agregar</a>
+                <a class="Navbar-link" id="add" href="{% url "items:add" %}">Agregar</a>
             </li>
         </ul>
     </nav>
@@ -26,24 +26,8 @@
     {% endblock content %}
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>        
-        $(document).ready(function(){
-            $('#add').click(function(e){
-                e.preventDefault();
-
-                $(".overlay").removeClass('inactive');
-
-            })
-            
-            $('#cancel').click(function(){
-                console.log('hola')
-                $('.overlay').addClass('inactive')
-                
-            })
-           
-        })
-
-    </script>
+    
+    {% block script %}{% endblock script %}    
     </div>
 </body>
 </html>

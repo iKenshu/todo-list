@@ -1,13 +1,8 @@
-
 {% block content %}
-<div class="overlay inactive">
-    <div class="modal">
-        <form action="{{ action }}" method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Enviar">
-            <a name='cancel' id='cancel' href="">Cancel</a>
-        </form>
-    </div>
-</div>
+    <form class="Item-form" action="." method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Enviar">
+        <a name='cancel' id='cancel' href="">Cancel</a>
+    </form>
 {% endblock content %}
