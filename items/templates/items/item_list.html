@@ -24,17 +24,18 @@
         $('.Item-form').submit(function (event){
             event.preventDefault()
             let $formData = $(this).serialize()
-            console.log($formData)
             $.ajax({
                 method: "POST",
                 url: $(this).action,
                 data: $(this).serialize(),
                 success: function(data){
                     console.log(data)
-                    let div = $('.Item')
-                    div.append($('<h1>')).html(data.name)
-                    // $('.Item-name').text(data.name)
-                    // $('.Item-description').html(data.description)
+                    let div = $('.Items')
+
+                    div.append(data.name)
+                    div.append(data.description)
+
+                    $('.Item-form')[0].reset()
                 }
             });
         });

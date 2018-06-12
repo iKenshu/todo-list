@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseForbidden
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import (ListView,
+                                  DetailView,
+                                  CreateView,
+                                  UpdateView,
+                                  DeleteView,)
 from django.views.generic.edit import FormMixin
 from django.template.loader import render_to_string
 
@@ -45,3 +49,8 @@ class ItemCreateView(CreateView):
     model = Item
     success_url = '/'
     form_class = ItemForm
+
+
+class ItemDeleteView(DeleteView):
+    model = Item
+    success_url = '/'
