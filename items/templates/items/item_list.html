@@ -29,12 +29,29 @@
                 data: $(this).serialize(),
                 success: function(data){
                     console.log(data)
-                    let div = $('.Items')
 
-                    div.append(data.name)
-                    div.append(data.description)
+                    const firstChild = document.getElementsByClassName('Item')[0]
+                    const items = document.getElementsByClassName('Items')[0]
+                    let item = document.createElement('div')
+                    let itemTitle = document.createElement('h1')
+                    let itemDescription = document.createElement('p')
 
-                    $('.Item-form')[0].reset()
+                    item.classList.add('Item')
+                    itemTitle.classList.add('Item-name')
+                    itemDescription.classList.add('Item-description')
+
+                    itemDescription.textContent = data.description
+                    itemTitle.textContent = data.name
+
+                    item.appendChild(itemTitle)
+                    item.appendChild(itemDescription)
+
+                    items.insertBefore(item, firstChild)
+
+                    //let div = $('.Items')
+                    //div.append($('<h1>')).html(data.name)
+                    // $('.Item-name').text(data.name)
+                    // $('.Item-description').html(data.description)
                 }
             });
         });

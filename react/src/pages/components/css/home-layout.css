@@ -1,0 +1,6 @@
+.Home-Layout{
+display: grid;
+    grid-template: repeat(2, auto) / repeat(2, 1fr);
+    grid-template-areas: "navbar navbar"
+                        "items items";
+}

@@ -1,0 +1,6 @@
+.Item {
+    background-color: var(--item-bg-color);
+    padding: 1em;
+    margin: 1em;
+    border-radius: 5px;
+}
