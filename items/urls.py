@@ -1,15 +1,21 @@
 from django.urls import path
 
+app_name = 'items'
+
 from .views import (ItemListView,
                     ItemDetailView,
                     ItemCreateView,
-                    ItemDeleteView)
+                    ItemDeleteView,
+                    ItemListViewReact)
 
 app_name = 'items'
 urlpatterns = [
     path('',
          view=ItemListView.as_view(),
          name='list'),
+    path('react/',
+         view=ItemListViewReact.as_view(),
+         name='list_react'),
     path('add/',
          view=ItemCreateView.as_view(),
          name='add'),

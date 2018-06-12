@@ -1,0 +1,6 @@
+.Items {
+    padding: 1em;
+    margin: 0 auto;
+    width: 50%;
+    grid-area: items;
+}
