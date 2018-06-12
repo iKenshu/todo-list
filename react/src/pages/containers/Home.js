@@ -22,7 +22,6 @@ class Home extends Component {
                     let data = {
                         name: item.name,
                         description: item.description,
-                        slug: item.slug,
                         pub_date: item.pub_date
                     }
                     this.setState({
@@ -30,6 +29,21 @@ class Home extends Component {
                     })
                 })
             })
+    }
+    setData = item => {
+        let last_data = this.state.items
+        console.log(last_data)
+        this.setState({
+            items: []
+        })
+        this.setState({
+            items: this.state.items.concat([item])
+        })
+        last_data.forEach(element => {
+            this.setState({
+                items: this.state.items.concat([element])
+            })
+        })
     }
     createItem = data => {
         fetch(this.state.newItemUrl, {
@@ -42,8 +56,15 @@ class Home extends Component {
         })
             .then(response => response.json())
             .then(item => {
-                console.log(item)
-                this.getData()
+                let data = {
+                    name: item.name,
+                    description: item.description,
+                    pub_date: item.pub_date
+                }
+                //console.log(items)
+                //items = items.concat([last_data])
+                this.setData(data)
+                //this.getData()
             })
     }
 
