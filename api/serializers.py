@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from items.models import Item
 
 from django.contrib.auth.models import User
