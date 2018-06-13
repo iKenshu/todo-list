@@ -18,7 +18,7 @@ class Home extends Component {
         fetch(this.state.url)
             .then(response => response.json())
             .then(items => {
-                items.forEach(item => {
+                items.results.forEach(item => {
                     let data = {
                         name: item.name,
                         description: item.description,
@@ -61,7 +61,6 @@ class Home extends Component {
                     description: item.description,
                     pub_date: item.pub_date
                 }
-                //console.log(items)
                 //items = items.concat([last_data])
                 this.setData(data)
                 //this.getData()

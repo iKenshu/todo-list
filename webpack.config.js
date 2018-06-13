@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 
-module.exports = (env) => {
+module.exports = (env) => {    
     const plugins = [
         new ExtractTextPlugin("css/[name].css")
     ]
@@ -15,7 +15,6 @@ module.exports = (env) => {
     }
 
     return {
-
         entry: {
           "home": path.resolve(__dirname, 'react/src/entries/home.js'),
         },

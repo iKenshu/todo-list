@@ -1,11 +1,3 @@
-.Home-Layout{
-display: grid;
-    grid-template: repeat(2, auto) / repeat(2, 1fr);
-    grid-template-areas:    "navbar navbar"
-                            "form form"
-                            "items items";
-}
-
 :root {
     --body-bg-color: #20A0A0;
     --item-bg-color: #FFBB33;
@@ -17,6 +9,14 @@ body {
     background-color: var(--body-bg-color);
     font-family: 'Sunflower', sans-serif;
     margin: 0;
+}
+
+.Home-Layout{   
+    display: grid;
+    grid-template: repeat(2, auto) / repeat(2, 1fr);
+    grid-template-areas:    "navbar navbar"
+                            "form form"
+                            "items items";
 }
 
 .overlay {

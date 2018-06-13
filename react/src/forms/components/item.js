@@ -25,28 +25,29 @@ class Item extends PureComponent {
                 action=""
                 onSubmit={ this.handleSubmit }
             >
-            <p className='Form-element'>
-                <label htmlFor="id_name">Name: </label>
-                <input
-                    id='id_name'
-                    name='name'
-                    required='true'
-                    type='text'
-                />
-            </p>
+                <div className='Form-element'>
+                    <label htmlFor="id_name">Name: </label>
+                    <input
+                        id='id_name'
+                        name='name'
+                        required='true'
+                        type='text'
+                    />
+                </div>
 
-            <p className='Form-element'>
-                <label htmlFor="id_description">Name: </label>
-                <textarea id='id_description'
-                          name='description'
-                          required='true'
-                          cols='40'
-                          rows='10'
-                >
-                </textarea>
-            </p>
+                <div className='Form-element'>
+                    <label htmlFor="id_description">Description: </label>
+                    <textarea id='id_description'
+                              name='description'
+                              required='true'
+                              cols='40'
+                              rows='10'
+                    >
+                    </textarea>
+                </div>
 
-           <button type="submit">Send</button>
+           <button className='Form-button'
+                    type="submit">Agregar</button>
 
             </form>
         )

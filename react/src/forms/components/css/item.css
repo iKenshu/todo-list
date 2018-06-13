@@ -3,4 +3,12 @@
     margin: 0 auto;
     width: 50%;
     grid-area: form;
+    text-align: center;
+}
+
+.Form-button {
+    padding: 1em;
+    background: var(--item-bg-color);
+    margin: 1em;
+    border: 0;
 }
