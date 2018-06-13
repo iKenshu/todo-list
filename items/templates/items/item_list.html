@@ -3,7 +3,7 @@
 {% block content %}
     
 <div class="Items">
-    <form class='Item-form' action="{% url "items:add" %}" method="POST">
+    <form class='Item-form' action="{% url "api:create" %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Send">
