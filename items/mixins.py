@@ -18,7 +18,6 @@ class AjaxableResponseMixin:
         if self.request.is_ajax():
             name = form.cleaned_data.get('name')
             description = form.cleaned_data.get('description')
-            print('hola mixin')
             data = {
                 'name': name,
                 'description': description,
