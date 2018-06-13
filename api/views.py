@@ -11,9 +11,9 @@ class ItemAPIList(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     pagination_class = StandardResultsPagination
-    permission_class = (IsAuthenticated)
+    permission_classes = (IsAuthenticated,)
 
 
 class ItemAPICreate(CreateAPIView):
     serializer_class = ItemSerializer
-    permission_class = (IsAuthenticated)
+    permission_classes = (IsAuthenticated,)
