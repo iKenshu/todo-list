@@ -35,7 +35,7 @@ class ItemListView(AjaxableResponseMixin, FormMixin, ListView):
         return context
 
     def form_valid(self, form):
-        print(form.cleaned_data)
+        form.instance.user = self.request.user
         form.save()
         return super(ItemListView, self).form_valid(form)
 

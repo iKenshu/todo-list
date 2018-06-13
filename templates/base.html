@@ -9,25 +9,9 @@
 </head>
 <body>
     <div class="container">
-        
-    <nav class="Navbar">
-        <ul class="Navbar-list">
-            <li class="Navbar-item">
-                <a class="Navbar-link" href="/">Inicio</a>
-            </li>
-            <li class="Navbar-item">
-                <a class="Navbar-link" id="add" href="{% url "items:add" %}">Agregar</a>
-            </li>
-        </ul>
-    </nav>
-
     {% block content %}
         
     {% endblock content %}
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    
-    {% block script %}{% endblock script %}    
     </div>
 </body>
 </html>
