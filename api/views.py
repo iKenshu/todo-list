@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, GenericAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -41,3 +41,11 @@ class ItemAPIList(ListAPIView):
 class ItemAPICreate(CreateAPIView):
     serializer_class = ItemSerializer
     permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kargs):
+        serializer = ItemSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=ValueError):
+            serializer.create(validated_data=request.data)
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        return Response(serializer.error_messages,
+                        status=HTTP_400_BAD_REQUEST)

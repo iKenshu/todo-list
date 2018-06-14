@@ -41,7 +41,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserSerializer(required=True)
 
     class Meta:
         model = Item
@@ -51,3 +51,10 @@ class ItemSerializer(serializers.ModelSerializer):
             'description',
             'pub_date',
         )
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user = User.objects.get(username=user_data.username)
+        item, created = Item.objects.create(user=user, **validated_data)
+
+        return item

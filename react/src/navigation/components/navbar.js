@@ -9,11 +9,12 @@ function Navbar(props) {
             <ul className='Navbar-list'>
                 <Item
                     text='Inicio'
-                    url='#'
+                    url='/home'
                 />
                 <Item
                     text='Agregar'
-                    url='#'
+                    url='/agregar'
+                    handleClick={ props.handleAdd }
                 />
             </ul>
         </nav>
