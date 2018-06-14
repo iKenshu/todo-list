@@ -16,9 +16,9 @@ module.exports = (env) => {
 
     return {
         entry: {
-          "home": path.resolve(__dirname, 'react/src/entries/home.js'),
+            "home": path.resolve(__dirname, 'react/src/entries/home.js'),
         },
-          output: {
+        output: {
             path: path.resolve(__dirname, 'items/static/dist'),
             //path: 'dist',
             filename: 'js/[name].js',
@@ -26,7 +26,7 @@ module.exports = (env) => {
             //publicPath: path.resolve(__dirname, 'dist')+"/",
             publicPath: 'dist/',
             chunkFilename: 'js/[id].[chunkhash].js',
-          },
+        },
         devServer: {
             port: 9000,
         },
@@ -37,33 +37,33 @@ module.exports = (env) => {
                     // use: que loader se va a encargar del archivo
                     test: /\.js$/,
                     exclude: /(node_modules)/,
-                    use: {
-                        loader: 'babel-loader'
+                        use: {
+                    loader: 'babel-loader'
+                        },
                     },
-                },
                 {
-                    test: /\.css$/,
-                    use: ExtractTextPlugin.extract({
-                        use: [
-                            {
-                                loader: 'css-loader',
-                                options: {
-                                    minimize: true,
-                                }
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                minimize: true,
                             }
-                        ]
-                    })
+                        }
+                    ]
+                })
                 },
                 {
-                    test: /\.(jpg|png|gif|svg)$/,
-                    use: {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 10000,
-                            fallback: 'file-loader',
-                            name: 'images/[name].[ext]',
-                        }
+                test: /\.(jpg|png|gif|svg)$/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        fallback: 'file-loader',
+                        name: 'images/[name].[ext]',
                     }
+                }
                 },
             ]
         },
