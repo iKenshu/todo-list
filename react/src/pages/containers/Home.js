@@ -123,7 +123,8 @@ class Home extends Component {
         }
       })
   }
-  handleClickAdd = () => {
+  handleClickAdd = event => {
+    console.log(event)
     this.setState({
       showCreate: true,
     })
