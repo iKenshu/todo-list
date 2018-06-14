@@ -8,6 +8,7 @@ function NavbarItem(props) {
             <a
                 href={ props.url }
                 className='Navbar-link'
+                onClick={props.handleClick}
             >
                 { props.text }
             </a>

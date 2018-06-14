@@ -16,7 +16,7 @@ class Auth extends PureComponent {
   render() {
     return(
       <form
-        className='Auth-Form'
+        className='Item-form'
         action=''
         onSubmit={ this.handleSubmit }
       >

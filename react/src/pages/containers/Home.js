@@ -11,8 +11,18 @@ class Home extends Component {
     items: [],
     url: '/api/items/?format=json',
     newItemUrl: '/api/items/new',
-    loginUrl: '/api/rest-auth/login/',
-    token: '',
+    loginUrl: '/api/token/',
+    token: localStorage.getItem('token'),
+    username: localStorage.getItem('username'),
+    showCreate: false,
+  }
+
+  handleError = error => {
+    if (error.message === 'e.results is undefined'){
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      this.setState({ token: '', username: '' })
+    }
   }
 
   getData = () => {
@@ -21,10 +31,10 @@ class Home extends Component {
     })
     fetch(this.state.url, {
       'method': 'GET',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        "key": this.state.key
-      })
+       headers: {
+        'Content-Type':'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      }
     })
       .then(response => response.json())
       .then(items => {
@@ -39,6 +49,7 @@ class Home extends Component {
           })
         })
     })
+      .catch(error => this.handleError(error))
   }
   setData = item => {
     let last_data = this.state.items
@@ -57,20 +68,33 @@ class Home extends Component {
   createItem = data => {
     fetch(this.state.newItemUrl, {
       method:  "POST",
-      headers: {'Content-Type':'application/json'},
+      headers: {
+        'Content-Type':'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      },
       body: JSON.stringify({
+        "user": {
+          "username": this.state.username
+        },
         "name": data.name,
         "description": data.description
       })
     })
-    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      console.log(this.state.username)
+      return response.json()
+    })
     .then(item => {
+
       let data = {
       name: item.name,
       description: item.description,
       pub_date: item.pub_date
     }
-    //items = items.concat([last_data])
+    this.setState({
+      showCreate: false,
+    })
     this.setData(data)
     //this.getData()
     })
@@ -79,7 +103,6 @@ class Home extends Component {
     this.createItem(data)
   }
   login = data => {
-
     fetch(this.state.loginUrl, {
       'method': 'POST',
       headers: {'Content-Type':'application/json'},
@@ -89,19 +112,22 @@ class Home extends Component {
       })
     })
       .then(response => response.json())
-      .then(token => {
-        console.log(token)
-        if (token.key) {
+      .then(json => {
+        localStorage.setItem('token', json.token)
+        localStorage.setItem('username', json.user.username)
+        if (json.token) {
           this.setState({
-            token: token.token
+            token: localStorage.getItem('token', json.token),
           })
-          //this.getData()
+          this.getData()
         }
       })
-    fetch('/rest-auth/user/')
-            .then(response => console.log(response))
   }
-
+  handleClickAdd = () => {
+    this.setState({
+      showCreate: true,
+    })
+  }
 
   componentDidMount() {
     if(this.state.token !== '') {
@@ -112,15 +138,21 @@ class Home extends Component {
   render() {
     return (
       <Layout>
-          <Navbar />
-          {
-            this.state.token === '' &&
+        <Navbar
+          handleAdd={ this.handleClickAdd }
+        />
+        {
+          this.state.token === '' &&
             <Auth handleLogin={this.login }/>
-          }
+        }
+        {
+          this.state.token !== '' &&
+            this.state.showCreate &&
+              <Form
+                sendData={this.sendData}
+              />
+        }
 
-          <Form
-            sendData={this.sendData}
-          />
           <Items
             items={ this.state.items }
           />

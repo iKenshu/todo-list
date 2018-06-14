@@ -14,6 +14,7 @@ function Navbar(props) {
                 <Item
                     text='Agregar'
                     url='#'
+                    handleClick={ props.handleAdd }
                 />
             </ul>
         </nav>

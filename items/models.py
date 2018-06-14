@@ -4,7 +4,7 @@ from django.utils.text import slugify
 
 
 class Item(models.Model):
-    user = models.OneToOneField(User,
+    user = models.ForeignKey(User,
                                 on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField()
