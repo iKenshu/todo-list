@@ -41,7 +41,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    user = UserSerializer(required=True)
+    user = serializers.CharField()
 
     class Meta:
         model = Item
@@ -49,12 +49,11 @@ class ItemSerializer(serializers.ModelSerializer):
             'user',
             'name',
             'description',
-            'pub_date',
         )
 
     def create(self, validated_data):
-        user_data = validated_data.pop('user')
-        user = User.objects.get(username=user_data.username)
-        item, created = Item.objects.create(user=user, **validated_data)
+        username = validated_data.pop('user')
+        user = User.objects.get(username=username)
+        item = Item.objects.create(user=user, **validated_data)
 
         return item

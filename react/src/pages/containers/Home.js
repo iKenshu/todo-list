@@ -14,14 +14,13 @@ class Home extends Component {
     loginUrl: '/api/token/',
     token: localStorage.getItem('token'),
     username: localStorage.getItem('username'),
+    isLogin: false,
     showCreate: false,
   }
 
   handleError = error => {
     if (error.message === 'e.results is undefined'){
-      localStorage.removeItem('token')
-      localStorage.removeItem('username')
-      this.setState({ token: '', username: '' })
+      this.logout()
     }
   }
 
@@ -73,9 +72,7 @@ class Home extends Component {
         Authorization: `JWT ${localStorage.getItem('token')}`
       },
       body: JSON.stringify({
-        "user": {
-          "username": this.state.username
-        },
+        "user": this.state.username,
         "name": data.name,
         "description": data.description
       })
@@ -117,12 +114,20 @@ class Home extends Component {
         localStorage.setItem('username', json.user.username)
         if (json.token) {
           this.setState({
-            token: localStorage.getItem('token', json.token),
+            token: localStorage.getItem('token'),
+            username: localStorage.getItem('username'),
+            isLogin: true,
           })
           this.getData()
         }
       })
   }
+  logout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('username')
+    this.setState({ token: '', username: '', isLogin: false })
+  }
+
   handleClickAdd = event => {
     console.log(event)
     this.setState({
@@ -141,11 +146,15 @@ class Home extends Component {
       <Layout>
         <Navbar
           handleAdd={ this.handleClickAdd }
+          isLogin={ this.state.isLogin }
+          handleExit={ true }
+          handleLogout={ this.logout }
         />
         {
           this.state.token === '' &&
             <Auth handleLogin={this.login }/>
         }
+
         {
           this.state.token !== '' &&
             this.state.showCreate &&
@@ -153,10 +162,13 @@ class Home extends Component {
                 sendData={this.sendData}
               />
         }
+        {
+          this.state.isLogin &&
+            <Items
+              items={ this.state.items }
+            />
+        }
 
-          <Items
-            items={ this.state.items }
-          />
         </Layout>
     )
   }
