@@ -16,6 +16,7 @@ class NavbarItem extends PureComponent {
               href={ this.props.url }
               className='Navbar-link'
               onClick={this.handleLink}
+              handleDelete={ this.props.handleDelete }
           >
               { this.props.text }
           </a>

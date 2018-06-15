@@ -47,6 +47,7 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = (
             'user',
+            'id',
             'name',
             'description',
         )

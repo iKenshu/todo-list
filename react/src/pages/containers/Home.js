@@ -39,6 +39,7 @@ class Home extends Component {
       .then(items => {
         items.results.reverse().forEach(item => {
           let data = {
+            id: item.id,
             name: item.name,
             description: item.description,
             pub_date: item.pub_date
@@ -121,6 +122,14 @@ class Home extends Component {
     })
   }
 
+  handleDelete = (event, item) => {
+    event.preventDefault()
+    let newItems = this.state.items.slice()
+    //Define rules to use /api/items/delete/pk
+    newItems = newItems.filter(el => el.id!==item.id)
+    this.setState({items: newItems})
+  }
+
   componentDidMount() {
     if(this.state.token !== '') {
       this.getData()
@@ -152,6 +161,7 @@ class Home extends Component {
           this.state.token !== '' &&
             <Items
               items={ this.state.items }
+              handleDelete={ this.handleDelete }
             />
         }
 
