@@ -1,8 +1,7 @@
 :root {
     --body-bg-color: #20A0A0;
-    --item-bg-color: #FFBB33;
+    --item-bg-color: #69CCCC;
     --navbar-bg-color: #FF5959;
-    --overlay-color: rgba(0, 111, 111, 0.5);
 }
 
 body {

@@ -78,8 +78,6 @@ class Home extends Component {
       })
     })
     .then(response => {
-      console.log(response)
-      console.log(this.state.username)
       return response.json()
     })
     .then(item => {
@@ -129,7 +127,6 @@ class Home extends Component {
   }
 
   handleClickAdd = event => {
-    console.log(event)
     this.setState({
       showCreate: true,
     })
