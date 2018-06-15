@@ -1,4 +1,5 @@
 import React from 'react'
+import { CSSTransitionGroup } from 'react-transition-group'
 
 import './css/items.css'
 
@@ -6,13 +7,16 @@ import Item from './item'
 import './css/items.css'
 
 function Items(props) {
-    return(
-        <div className="Items">
-            {
-                props.items.map(item => <Item {...item}/>)
-            }
-        </div>
-    )
+  return(
+    <CSSTransitionGroup className="Items"
+      transitionName="example"
+      transitionEnterTimeout={500}
+    >
+      {
+        props.items.map(item => <Item {...item}/>)
+      }
+    </CSSTransitionGroup>
+  )
 }
 
 export default Items

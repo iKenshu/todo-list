@@ -14,7 +14,7 @@ class Home extends Component {
     loginUrl: '/api/token/',
     token: localStorage.getItem('token'),
     username: localStorage.getItem('username'),
-    isLogin: false,
+    isLogin: localStorage.getItem('isLogin'),
     showCreate: false,
   }
 
@@ -37,7 +37,7 @@ class Home extends Component {
     })
       .then(response => response.json())
       .then(items => {
-        items.results.forEach(item => {
+        items.results.reverse().forEach(item => {
           let data = {
             name: item.name,
             description: item.description,
@@ -50,20 +50,7 @@ class Home extends Component {
     })
       .catch(error => this.handleError(error))
   }
-  setData = item => {
-    let last_data = this.state.items
-    this.setState({
-      items: []
-    })
-    this.setState({
-      items: this.state.items.concat([item])
-    })
-    last_data.forEach(element => {
-      this.setState({
-        items: this.state.items.concat([element])
-      })
-    })
-  }
+
   createItem = data => {
     fetch(this.state.newItemUrl, {
       method:  "POST",
@@ -81,22 +68,22 @@ class Home extends Component {
       return response.json()
     })
     .then(item => {
-
       let data = {
       name: item.name,
       description: item.description,
       pub_date: item.pub_date
     }
-    this.setState({
-      showCreate: false,
-    })
-    this.setData(data)
-    //this.getData()
+      this.setState({
+        items: this.state.items.concat([data]),
+        showCreate: false,
+      })
     })
   }
+
   sendData = data => {
     this.createItem(data)
   }
+
   login = data => {
     fetch(this.state.loginUrl, {
       'method': 'POST',
@@ -110,17 +97,19 @@ class Home extends Component {
       .then(json => {
         localStorage.setItem('token', json.token)
         localStorage.setItem('username', json.user.username)
+        localStorage.setItem('isLogin', '1')
         if (json.token) {
           this.setState({
             token: localStorage.getItem('token'),
             username: localStorage.getItem('username'),
-            isLogin: true,
+            isLogin: localStorage.getItem('isLogin'),
           })
           this.getData()
         }
       })
   }
-  logout = () => {
+
+  logout = event => {
     localStorage.removeItem('token')
     localStorage.removeItem('username')
     this.setState({ token: '', username: '', isLogin: false })
@@ -128,7 +117,7 @@ class Home extends Component {
 
   handleClickAdd = event => {
     this.setState({
-      showCreate: true,
+      showCreate: !this.state.showCreate,
     })
   }
 
@@ -144,7 +133,6 @@ class Home extends Component {
         <Navbar
           handleAdd={ this.handleClickAdd }
           isLogin={ this.state.isLogin }
-          handleExit={ true }
           handleLogout={ this.logout }
         />
         {
@@ -159,8 +147,9 @@ class Home extends Component {
                 sendData={this.sendData}
               />
         }
+
         {
-          this.state.isLogin &&
+          this.state.token !== '' &&
             <Items
               items={ this.state.items }
             />

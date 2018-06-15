@@ -6,13 +6,7 @@ class NavbarItem extends PureComponent {
 
   handleLink = event => {
     event.preventDefault()
-    if (this.props.handleExit)
-    {
-      console.log('aiuda')
-      this.props.handleLogout()
-    }
-    else
-      this.props.handleClick(event)
+    this.props.handleClick(event)
   }
 
   render(){
