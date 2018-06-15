@@ -29,10 +29,13 @@ class UserListView(APIView):
 
 
 class ItemAPIList(ListAPIView):
-    queryset = Item.objects.all()
     serializer_class = ItemSerializer
     pagination_class = StandardResultsPagination
     permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        items = Item.objects.filter(user=self.request.user)
+        return items
 
 
 class ItemAPICreate(CreateAPIView):
