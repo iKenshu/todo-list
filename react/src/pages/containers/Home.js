@@ -9,9 +9,12 @@ import Auth from '../../forms/components/auth'
 class Home extends Component {
   state = {
     items: [],
-    url: '/api/items/?format=json',
-    newItemUrl: '/api/items/new',
-    loginUrl: '/api/token/',
+    urls: {
+      list: '/api/items/?format=json',
+      new: '/api/items/new',
+      delete:'/api/items/delete',
+      login: '/api/token/'
+    },
     token: localStorage.getItem('token'),
     username: localStorage.getItem('username'),
     isLogin: localStorage.getItem('isLogin'),
@@ -28,7 +31,7 @@ class Home extends Component {
     this.setState({
       items: []
     })
-    fetch(this.state.url, {
+    fetch(this.state.urls.list, {
       'method': 'GET',
        headers: {
         'Content-Type':'application/json',
@@ -53,7 +56,7 @@ class Home extends Component {
   }
 
   createItem = data => {
-    fetch(this.state.newItemUrl, {
+    fetch(this.state.urls.new, {
       method:  "POST",
       headers: {
         'Content-Type':'application/json',
@@ -65,9 +68,7 @@ class Home extends Component {
         "description": data.description
       })
     })
-    .then(response => {
-      return response.json()
-    })
+    .then(response => response.json())
     .then(item => {
       let data = {
       name: item.name,
@@ -86,7 +87,7 @@ class Home extends Component {
   }
 
   login = data => {
-    fetch(this.state.loginUrl, {
+    fetch(this.state.urls.login, {
       'method': 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -126,6 +127,18 @@ class Home extends Component {
     event.preventDefault()
     let newItems = this.state.items.slice()
     //Define rules to use /api/items/delete/pk
+    console.log(`${this.state.urls.delete}/${item.id}/`)
+    fetch(`${this.state.urls.delete}/${item.id}`, {
+      'method': 'DELETE',
+       headers: {
+        'Content-Type':'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      }
+    })
+    .then(response => {console.log(response)})
+      //.then(resul => {console.log(resul)})
+
+
     newItems = newItems.filter(el => el.id!==item.id)
     this.setState({items: newItems})
   }
