@@ -1,9 +1,10 @@
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, GenericAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.mixins import DestroyModelMixin
 
 from items.models import Item
 
@@ -41,3 +42,12 @@ class ItemAPIList(ListAPIView):
 class ItemAPICreate(CreateAPIView):
     serializer_class = ItemSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class ItemAPIDelete(DestroyModelMixin, GenericAPIView):
+    serializer_class = ItemSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = Item.objects.all()
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)

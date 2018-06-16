@@ -11,18 +11,21 @@ function Navbar(props) {
           text='Home'
           url='/home'
         />
-        <Item
-          text='New Item'
-          url='/add'
-          handleClick={ props.handleAdd }
-        />
         {
-          props.isLogin &&
+          props.isLogin === '1' &&
+            <Item
+              text='New Item'
+              url='/add'
+              handleClick={ props.handleAdd }
+            />
+        }
+
+        {
+          props.isLogin === '1' &&
             <Item
               text='Logout'
               url='/logout'
-              handleLogout={ props.handleLogout }
-              handleExit={ props.handleExit }
+              handleClick={ props.handleLogout }
             />
         }
 

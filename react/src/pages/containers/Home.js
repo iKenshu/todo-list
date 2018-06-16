@@ -9,12 +9,15 @@ import Auth from '../../forms/components/auth'
 class Home extends Component {
   state = {
     items: [],
-    url: '/api/items/?format=json',
-    newItemUrl: '/api/items/new',
-    loginUrl: '/api/token/',
+    urls: {
+      list: '/api/items/?format=json',
+      new: '/api/items/new',
+      delete:'/api/items/delete',
+      login: '/api/token/'
+    },
     token: localStorage.getItem('token'),
     username: localStorage.getItem('username'),
-    isLogin: false,
+    isLogin: localStorage.getItem('isLogin'),
     showCreate: false,
   }
 
@@ -28,7 +31,7 @@ class Home extends Component {
     this.setState({
       items: []
     })
-    fetch(this.state.url, {
+    fetch(this.state.urls.list, {
       'method': 'GET',
        headers: {
         'Content-Type':'application/json',
@@ -37,8 +40,9 @@ class Home extends Component {
     })
       .then(response => response.json())
       .then(items => {
-        items.results.forEach(item => {
+        items.results.reverse().forEach(item => {
           let data = {
+            id: item.id,
             name: item.name,
             description: item.description,
             pub_date: item.pub_date
@@ -50,22 +54,9 @@ class Home extends Component {
     })
       .catch(error => this.handleError(error))
   }
-  setData = item => {
-    let last_data = this.state.items
-    this.setState({
-      items: []
-    })
-    this.setState({
-      items: this.state.items.concat([item])
-    })
-    last_data.forEach(element => {
-      this.setState({
-        items: this.state.items.concat([element])
-      })
-    })
-  }
+
   createItem = data => {
-    fetch(this.state.newItemUrl, {
+    fetch(this.state.urls.new, {
       method:  "POST",
       headers: {
         'Content-Type':'application/json',
@@ -77,28 +68,26 @@ class Home extends Component {
         "description": data.description
       })
     })
-    .then(response => {
-      return response.json()
-    })
+    .then(response => response.json())
     .then(item => {
-
       let data = {
       name: item.name,
       description: item.description,
       pub_date: item.pub_date
     }
-    this.setState({
-      showCreate: false,
-    })
-    this.setData(data)
-    //this.getData()
+      this.setState({
+        items: this.state.items.concat([data]),
+        showCreate: false,
+      })
     })
   }
+
   sendData = data => {
     this.createItem(data)
   }
+
   login = data => {
-    fetch(this.state.loginUrl, {
+    fetch(this.state.urls.login, {
       'method': 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -110,17 +99,19 @@ class Home extends Component {
       .then(json => {
         localStorage.setItem('token', json.token)
         localStorage.setItem('username', json.user.username)
+        localStorage.setItem('isLogin', '1')
         if (json.token) {
           this.setState({
             token: localStorage.getItem('token'),
             username: localStorage.getItem('username'),
-            isLogin: true,
+            isLogin: localStorage.getItem('isLogin'),
           })
           this.getData()
         }
       })
   }
-  logout = () => {
+
+  logout = event => {
     localStorage.removeItem('token')
     localStorage.removeItem('username')
     this.setState({ token: '', username: '', isLogin: false })
@@ -128,8 +119,28 @@ class Home extends Component {
 
   handleClickAdd = event => {
     this.setState({
-      showCreate: true,
+      showCreate: !this.state.showCreate,
     })
+  }
+
+  handleDelete = (event, item) => {
+    event.preventDefault()
+    let newItems = this.state.items.slice()
+    //Define rules to use /api/items/delete/pk
+    console.log(`${this.state.urls.delete}/${item.id}/`)
+    fetch(`${this.state.urls.delete}/${item.id}`, {
+      'method': 'DELETE',
+       headers: {
+        'Content-Type':'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      }
+    })
+    .then(response => {console.log(response)})
+      //.then(resul => {console.log(resul)})
+
+
+    newItems = newItems.filter(el => el.id!==item.id)
+    this.setState({items: newItems})
   }
 
   componentDidMount() {
@@ -144,7 +155,6 @@ class Home extends Component {
         <Navbar
           handleAdd={ this.handleClickAdd }
           isLogin={ this.state.isLogin }
-          handleExit={ true }
           handleLogout={ this.logout }
         />
         {
@@ -159,10 +169,12 @@ class Home extends Component {
                 sendData={this.sendData}
               />
         }
+
         {
-          this.state.isLogin &&
+          this.state.token !== '' &&
             <Items
               items={ this.state.items }
+              handleDelete={ this.handleDelete }
             />
         }
 
