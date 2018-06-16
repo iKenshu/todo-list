@@ -8,6 +8,7 @@ class Item(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     pub_date = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False)
     slug = models.SlugField(max_length=255)
 
     class Meta:

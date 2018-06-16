@@ -50,6 +50,8 @@ class ItemSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'description',
+            'completed',
+            'pub_date'
         )
 
     def create(self, validated_data):
