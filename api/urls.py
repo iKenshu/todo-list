@@ -1,7 +1,11 @@
 from django.urls import path, include
 from rest_framework_jwt.views import obtain_jwt_token
 
-from .views import ItemAPIList, ItemAPICreate, current_user, UserListView, ItemAPIDelete
+from .views import (ItemAPIList,
+                    ItemAPICreate,
+                    current_user,
+                    UserListView,
+                    ItemAPIDelete,)
 
 app_name = 'api'
 

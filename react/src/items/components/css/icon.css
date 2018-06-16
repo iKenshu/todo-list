@@ -1,5 +1,5 @@
 .deleteIcon {
-    color: red;
+    color: var(--navbar-bg-color);
     position: relative;
     left: -30px;
     top: -30px;
