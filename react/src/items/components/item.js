@@ -27,6 +27,7 @@ class Item extends PureComponent {
           { this.props.item.name }
         </h1>
           <p className="Item-description">{ this.props.item.description }</p>
+          <p className="Item-description">{ this.props.item.pub_date }</p>
       </div>
     )
   }
