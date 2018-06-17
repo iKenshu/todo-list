@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
-import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 moment.locale('es')
+
+import FontAwesome from 'react-fontawesome'
 
 import './css/item.css'
 import './css/icon.css'
@@ -14,7 +15,7 @@ class Item extends PureComponent {
 
   render(){
     const { name, description } = this.props.item
-    let date = moment(this.props.item.pub_date).fromNow()
+    const date = moment(this.props.item.pub_date).fromNow()
 
     return (
       <div className="Item">
@@ -32,7 +33,7 @@ class Item extends PureComponent {
           { name }
         </h1>
           <p className="Item-description">{ description }</p>
-          <p className="Item-description">{ date }</p>
+          <span className="Item-date">{ date }</span>
       </div>
     )
   }

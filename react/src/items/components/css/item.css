@@ -3,8 +3,15 @@
     padding: 1em;
     margin: 1em;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 .Item-name {
     margin: 0;
+}
+
+.Item-date {
+    align-self: end;
+    color: var(--body-bg-color);
 }
