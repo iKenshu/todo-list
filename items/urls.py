@@ -1,12 +1,6 @@
 from django.urls import path
 
-app_name = 'items'
-
-from .views import (ItemListView,
-                    ItemDetailView,
-                    ItemCreateView,
-                    ItemDeleteView,
-                    ItemListViewReact)
+from .views import ItemListViewReact
 
 app_name = 'items'
 urlpatterns = [
