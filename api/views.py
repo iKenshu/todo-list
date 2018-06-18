@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.mixins import DestroyModelMixin
+from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
 
 from items.models import Item
 
@@ -35,7 +35,7 @@ class ItemAPIList(ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        items = Item.objects.filter(user=self.request.user)
+        items = Item.objects.filter(user=self.request.user, completed=False)
         return items
 
 
@@ -54,5 +54,13 @@ class ItemAPIDelete(DestroyModelMixin, GenericAPIView):
 
 
 class ItemCompletedAPIUpdate(UpdateAPIView):
-    queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = Item.objects.all()
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.completed = request.data.get("completed")
+        instance.save()
+
+        return Response(instance)

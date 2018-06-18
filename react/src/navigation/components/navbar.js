@@ -1,5 +1,5 @@
 import React from 'react'
-import Item from './navbarItem'
+import NavItem from './navbarItem'
 
 import './css/navbar.css'
 
@@ -8,8 +8,8 @@ function Navbar(props) {
     <nav className='Navbar'>
       <ul className='Navbar-list'>
         {
-          this.props.isLogin &&
-            props.items.map(item => <Item {...item}/>)
+          props.isLogin &&
+            props.items.map(item => <NavItem {...item}/>)
         }
       </ul>
     </nav>

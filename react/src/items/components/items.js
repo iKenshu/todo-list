@@ -13,11 +13,13 @@ function Items(props) {
       transitionEnterTimeout={500}
     >
       {
-        props.items.map(item => <Item
+        props.items.map(item => {
+          return(<Item
                                   item={ item }
-                                  handleDelete={ props.handleDelete }
                                   key={ item.id }
+                                  icons={ props.icons }
                                 />)
+        })
       }
     </CSSTransitionGroup>
   )
