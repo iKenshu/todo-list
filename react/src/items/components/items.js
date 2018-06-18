@@ -21,6 +21,19 @@ function Items(props) {
                                 />)
         })
       }
+      {
+        props.items.length === 0 &&
+          <Item
+            item={{
+              name: 'Notification',
+              description: 'No registered items found.\n' +
+              '\n' +
+              'Register one or try again later.',
+              date: Date.now()
+            }}
+            icons = {[]}
+          />
+      }
     </CSSTransitionGroup>
   )
 }
