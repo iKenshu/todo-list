@@ -5,18 +5,8 @@ import './css/item.css'
 class Item extends PureComponent {
 
     handleSubmit = event => {
-        event.preventDefault()
-        let name = event.target[0].value
-        let description = event.target[1].value
-        let data = {
-            name,
-            description,
-        }
-        this.props.sendData(data)
+        this.props.createItem(event)
     }
-
-
-
 
     render() {
         return (
