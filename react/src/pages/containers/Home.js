@@ -1,10 +1,10 @@
-//import { CookiesProvider, withCookies, Cookies } from 'react-cookie'
 import React, { Component } from 'react'
 import Items from '../../items/components/items'
 import Navbar from '../../navigation/components/navbar'
 import Layout from '../components/homeLayout'
 import Form from '../../forms/components/item'
 import Auth from '../../forms/components/auth'
+
 
 class Home extends Component {
   state = {
@@ -55,7 +55,11 @@ class Home extends Component {
       .catch(error => this.handleError(error))
   }
 
-  createItem = data => {
+  createItem = event => {
+    event.preventDefault()
+    let name = event.target[0].value
+    let description = event.target[1].value
+
     fetch(this.state.urls.new, {
       method:  "POST",
       headers: {
@@ -64,8 +68,8 @@ class Home extends Component {
       },
       body: JSON.stringify({
         "user": this.state.username,
-        "name": data.name,
-        "description": data.description
+        "name": name,
+        "description": description
       })
     })
     .then(response => response.json())
@@ -77,13 +81,10 @@ class Home extends Component {
     }
       this.setState({
         items: this.state.items.concat([data]),
-        showCreate: false,
+        showCreate: !this.state.showCreate,
       })
     })
-  }
-
-  sendData = data => {
-    this.createItem(data)
+      .catch(error => this.handleError(error))
   }
 
   login = data => {
@@ -108,16 +109,18 @@ class Home extends Component {
           })
           this.getData()
         }
-      })
+      }) .catch(error => this.handleError(error))
   }
 
   logout = event => {
+    event.preventDefault()
     localStorage.removeItem('token')
     localStorage.removeItem('username')
     this.setState({ token: '', username: '', isLogin: false })
   }
 
   handleClickAdd = event => {
+    event.preventDefault()
     this.setState({
       showCreate: !this.state.showCreate,
     })
@@ -136,9 +139,7 @@ class Home extends Component {
       }
     })
     .then(response => {console.log(response)})
-      //.then(resul => {console.log(resul)})
-
-
+    .catch(error => this.handleError(error))
     newItems = newItems.filter(el => el.id!==item.id)
     this.setState({items: newItems})
   }
@@ -153,9 +154,19 @@ class Home extends Component {
     return (
       <Layout>
         <Navbar
-          handleAdd={ this.handleClickAdd }
           isLogin={ this.state.isLogin }
-          handleLogout={ this.logout }
+          items={[
+                    {
+                      text: 'New Item',
+                      url: '/items/new',
+                      handleLink: this.handleClickAdd
+                    },
+                    {
+                      text: 'Logout',
+                      url: '/logout',
+                      handleLink: this.logout
+                    }
+            ]}
         />
         {
           this.state.token === '' &&
@@ -166,7 +177,7 @@ class Home extends Component {
           this.state.token !== '' &&
             this.state.showCreate &&
               <Form
-                sendData={this.sendData}
+                createItem={this.createItem}
               />
         }
 

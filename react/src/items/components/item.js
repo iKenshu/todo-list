@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
 import moment from 'moment'
-moment.locale('es')
 
 import FontAwesome from 'react-fontawesome'
 
 import './css/item.css'
 import './css/icon.css'
+
+moment.locale('es')
 
 class Item extends PureComponent {
 
