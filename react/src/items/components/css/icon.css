@@ -1,12 +1,11 @@
 .Icon {
     position: relative;
-    top: -30px;
     cursor: pointer;
     max-width: 30px;
+    align-self: end;
 }
 .Icon-delete {
     color: var(--navbar-bg-color);
-    left: -30px;
 }
 
 .Icon-complete {

@@ -2,7 +2,7 @@ import React from 'react'
 
 function Icons(props) {
   return(
-    <div className="Icons">
+    <div className="Item-buttons">
       { props.children }
     </div>
   )

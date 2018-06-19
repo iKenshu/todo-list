@@ -15,17 +15,16 @@ class Item extends PureComponent {
 
     return (
       <div className="Item">
-        <Icons>
-          {
-            this.props.icons.map(icon => <Icon {...icon} item={this.props.item}/>)
-          }
-        </Icons>
-
         <h1 className="Item-name">
           { name }
         </h1>
           <p className="Item-description">{ description }</p>
           <span className="Item-date">{ date }</span>
+        <Icons>
+          {
+            this.props.icons.map(icon => <Icon {...icon} item={this.props.item}/>)
+          }
+        </Icons>
       </div>
     )
   }
