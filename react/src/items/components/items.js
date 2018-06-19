@@ -13,11 +13,26 @@ function Items(props) {
       transitionEnterTimeout={500}
     >
       {
-        props.items.map(item => <Item
+        props.items.map(item => {
+          return(<Item
                                   item={ item }
-                                  handleDelete={ props.handleDelete }
                                   key={ item.id }
+                                  icons={ props.icons }
                                 />)
+        })
+      }
+      {
+        props.items.length === 0 &&
+          <Item
+            item={{
+              name: 'Notification',
+              description: 'No registered items found.\n' +
+              '\n' +
+              'Register one or try again later.',
+              date: Date.now()
+            }}
+            icons = {[]}
+          />
       }
     </CSSTransitionGroup>
   )

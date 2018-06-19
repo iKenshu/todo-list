@@ -27,6 +27,7 @@ module.exports = (env) => {
             publicPath: 'dist/',
             chunkFilename: 'js/[id].[chunkhash].js',
         },
+        devtool: 'inline-source-map ',
         devServer: {
             port: 9000,
         },

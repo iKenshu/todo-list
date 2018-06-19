@@ -1,7 +1,14 @@
-.deleteIcon {
-    color: var(--navbar-bg-color);
+.Icon {
     position: relative;
-    left: -30px;
     top: -30px;
     cursor: pointer;
+    max-width: 30px;
+}
+.Icon-delete {
+    color: var(--navbar-bg-color);
+    left: -30px;
+}
+
+.Icon-complete {
+    color: var(--navbar-bg-color);
 }

@@ -12,6 +12,7 @@ class Home extends Component {
     urls: {
       list: '/api/items/?format=json',
       new: '/api/items/new',
+      update: '/api/items/update',
       delete:'/api/items/delete',
       login: '/api/token/'
     },
@@ -83,8 +84,7 @@ class Home extends Component {
         items: this.state.items.concat([data]),
         showCreate: !this.state.showCreate,
       })
-    })
-      .catch(error => this.handleError(error))
+    }).catch(error => this.handleError(error))
   }
 
   login = data => {
@@ -109,7 +109,7 @@ class Home extends Component {
           })
           this.getData()
         }
-      }) .catch(error => this.handleError(error))
+      }).catch(error => this.handleError(error))
   }
 
   logout = event => {
@@ -126,10 +126,14 @@ class Home extends Component {
     })
   }
 
+  removeItem = item => {
+    let newItems = this.state.items.slice()
+    newItems = newItems.filter(el => el.id!==item.id)
+    this.setState({items: newItems})
+  }
+
   handleDelete = (event, item) => {
     event.preventDefault()
-    let newItems = this.state.items.slice()
-    //Define rules to use /api/items/delete/pk
     console.log(`${this.state.urls.delete}/${item.id}/`)
     fetch(`${this.state.urls.delete}/${item.id}`, {
       'method': 'DELETE',
@@ -138,10 +142,26 @@ class Home extends Component {
         Authorization: `JWT ${localStorage.getItem('token')}`
       }
     })
-    .then(response => {console.log(response)})
+    .then(response => {this.removeItem(item)})
     .catch(error => this.handleError(error))
-    newItems = newItems.filter(el => el.id!==item.id)
-    this.setState({items: newItems})
+
+  }
+
+  handleComplete = (event, item) => {
+    console.log(item)
+    fetch(`${this.state.urls.update}/${item.id}/`, {
+      method:  "PATCH",
+      headers: {
+        'Content-Type':'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        "completed": true
+      })
+    })
+    .then(response => {this.removeItem(item)})
+    .catch(error => this.handleError(error))
+
   }
 
   componentDidMount() {
@@ -156,16 +176,16 @@ class Home extends Component {
         <Navbar
           isLogin={ this.state.isLogin }
           items={[
-                    {
-                      text: 'New Item',
-                      url: '/items/new',
-                      handleLink: this.handleClickAdd
-                    },
-                    {
-                      text: 'Logout',
-                      url: '/logout',
-                      handleLink: this.logout
-                    }
+                  {
+                    text: 'New Item',
+                    url: '/items/new',
+                    handleLink: this.handleClickAdd
+                  },
+                  {
+                    text: 'Logout',
+                    url: '/logout',
+                    handleLink: this.logout
+                  }
             ]}
         />
         {
@@ -175,18 +195,33 @@ class Home extends Component {
 
         {
           this.state.token !== '' &&
+            <Items
+              items={ this.state.items }
+              icons={[
+                    {
+                      name: 'times',
+                      label: 'Delete Task',
+                      size: '2x',
+                      cssName: 'delete',
+                      handleLink: this.handleDelete
+                    },
+                    {
+                      name: 'check',
+                      label: 'Complete Task',
+                      size: '2x',
+                      cssName: 'complete',
+                      handleLink: this.handleComplete
+                    }
+            ]}
+            />
+
+        }
+        {
+          this.state.token !== '' &&
             this.state.showCreate &&
               <Form
                 createItem={this.createItem}
               />
-        }
-
-        {
-          this.state.token !== '' &&
-            <Items
-              items={ this.state.items }
-              handleDelete={ this.handleDelete }
-            />
         }
 
         </Layout>
