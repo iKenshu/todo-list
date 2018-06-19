@@ -26,7 +26,7 @@ function Items(props) {
           <Item
             item={{
               name: 'Notification',
-              description: 'No registered items found.\n' +
+              description: 'No registered items found.s \n' +
               '\n' +
               'Register one or try again later.',
               date: Date.now()

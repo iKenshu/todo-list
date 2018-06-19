@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react'
 import moment from 'moment'
-
 import Icon from './icon'
+import Icons from './icons'
 
 import './css/item.css'
-import './css/icon.css'
 
 moment.locale('es')
 
@@ -16,9 +15,12 @@ class Item extends PureComponent {
 
     return (
       <div className="Item">
-        {
-          this.props.icons.map(icon => <Icon {...icon} item={this.props.item}/>)
-        }
+        <Icons>
+          {
+            this.props.icons.map(icon => <Icon {...icon} item={this.props.item}/>)
+          }
+        </Icons>
+
         <h1 className="Item-name">
           { name }
         </h1>

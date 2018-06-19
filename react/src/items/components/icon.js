@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import FontAwesome from 'react-fontawesome'
 
+import './css/icon.css'
+
 class Icon extends PureComponent {
 
   handleClick = event => {
